@@ -1,0 +1,430 @@
+{
+  "reference_file": "picknplace_episode_6530_2603121132.hdf5",
+  "groups": [
+    "/action",
+    "/action/hand_joint_pos",
+    "/action/joint_pos",
+    "/labels",
+    "/metadata",
+    "/observation",
+    "/observation/hand_joint_cur",
+    "/observation/hand_joint_pos",
+    "/observation/images",
+    "/observation/joint_cur",
+    "/observation/joint_pos",
+    "/observation/quaternion",
+    "/observation/xpos",
+    "/tasks",
+    "/tasks/pick_and_place",
+    "/tasks/pick_and_place/subtasks",
+    "/tasks/pick_and_place/subtasks/pick",
+    "/tasks/pick_and_place/subtasks/place",
+    "/tasks/pick_and_place/subtasks/place_1"
+  ],
+  "datasets": {
+    "/action/hand_joint_pos/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/action/hand_joint_pos/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/action/joint_pos/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/action/joint_pos/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/compressed_image_len": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        3,
+        553
+      ]
+    },
+    "/labels/rewards": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    },
+    "/labels/status": {
+      "dtype_kind": "S",
+      "dtype_itemsize": 14,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    },
+    "/labels/task_done": {
+      "dtype_kind": "b",
+      "dtype_itemsize": 1,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    },
+    "/metadata/HZ": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/body_angle": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/collected_at": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/data_collection_error": {
+      "dtype_kind": "b",
+      "dtype_itemsize": 1,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/data_collection_method": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/data_schema": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/edited_at": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/grade": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/graph": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/head_pos_pan": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/head_pos_tilt": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/image_channels": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/image_compressed": {
+      "dtype_kind": "b",
+      "dtype_itemsize": 1,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/image_compression_ratio": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/inspector": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/labels": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/object_idx": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/object_num": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/operator": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/robot_3d_paths": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/robot_type": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/table_height": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/total_frames": {
+      "dtype_kind": "i",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/using_hand": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/verification": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/verification_automated": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/verification_manual": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/metadata/verification_summary": {
+      "dtype_kind": "O",
+      "dtype_itemsize": 8,
+      "ndims": 0,
+      "shape": []
+    },
+    "/observation/hand_joint_cur/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/hand_joint_cur/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/hand_joint_pos/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/hand_joint_pos/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/images/head": {
+      "dtype_kind": "u",
+      "dtype_itemsize": 1,
+      "ndims": 2,
+      "shape": [
+        553,
+        409972
+      ]
+    },
+    "/observation/images/left": {
+      "dtype_kind": "u",
+      "dtype_itemsize": 1,
+      "ndims": 2,
+      "shape": [
+        553,
+        409972
+      ]
+    },
+    "/observation/images/right": {
+      "dtype_kind": "u",
+      "dtype_itemsize": 1,
+      "ndims": 2,
+      "shape": [
+        553,
+        409972
+      ]
+    },
+    "/observation/joint_cur/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/joint_cur/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/joint_pos/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/joint_pos/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        6
+      ]
+    },
+    "/observation/quaternion/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        4
+      ]
+    },
+    "/observation/quaternion/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        4
+      ]
+    },
+    "/observation/xpos/left": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        3
+      ]
+    },
+    "/observation/xpos/right": {
+      "dtype_kind": "f",
+      "dtype_itemsize": 4,
+      "ndims": 2,
+      "shape": [
+        553,
+        3
+      ]
+    },
+    "/tasks/pick_and_place/status": {
+      "dtype_kind": "S",
+      "dtype_itemsize": 20,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    },
+    "/tasks/pick_and_place/subtasks/pick/status": {
+      "dtype_kind": "S",
+      "dtype_itemsize": 20,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    },
+    "/tasks/pick_and_place/subtasks/place/status": {
+      "dtype_kind": "S",
+      "dtype_itemsize": 20,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    },
+    "/tasks/pick_and_place/subtasks/place_1/status": {
+      "dtype_kind": "S",
+      "dtype_itemsize": 20,
+      "ndims": 1,
+      "shape": [
+        553
+      ]
+    }
+  }
+}

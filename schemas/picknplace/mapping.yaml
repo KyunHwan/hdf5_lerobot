@@ -1,0 +1,171 @@
+# =============================================================================
+# HDF5 → LeRobot Dataset Mapping Configuration
+# =============================================================================
+# This file defines how your custom HDF5 data maps to LeRobot v2.1 features.
+# The converter reads this + your schema.json + your HDF5 files to produce
+# a valid LeRobot dataset.
+#
+# REQUIRED sections: dataset, features, images
+# OPTIONAL sections: language_instructions, extra_observations
+# =============================================================================
+
+# --- Dataset-level metadata -------------------------------------------------
+dataset:
+  repo_id: "my_org/picknplace_dataset"        # HuggingFace repo id (used in info.json)
+  robot_type: "bimanual_custom"                # free-text robot type label
+  codebase_version: "v2.1"                     # target LeRobot format version
+  chunks_size: 1000                            # episodes per chunk dir
+
+  # FPS: either a fixed value, or read from HDF5 metadata
+  fps:
+    source: "hdf5"                             # "fixed" | "hdf5"
+    hdf5_path: "/metadata/HZ"                  # only used when source=hdf5
+    # fixed_value: 30                          # only used when source=fixed
+
+# --- Observation state ------------------------------------------------------
+# These HDF5 paths are CONCATENATED left-to-right to form `observation.state`.
+# Order matters! Document what each slice means via `names`.
+observation_state:
+  components:
+    - hdf5_path: "/observation/joint_pos/left"
+      slice: null                              # null = use all columns; or [start, end]
+      names_prefix: "left_joint"               # generates left_joint_0 .. left_joint_5
+    - hdf5_path: "/observation/joint_pos/right"
+      slice: null
+      names_prefix: "right_joint"
+    - hdf5_path: "/observation/hand_joint_pos/left"
+      slice: null
+      names_prefix: "left_hand_joint"
+    - hdf5_path: "/observation/hand_joint_pos/right"
+      slice: null
+      names_prefix: "right_hand_joint"
+
+# --- Actions ----------------------------------------------------------------
+# Same concatenation logic as observation_state, producing `action`.
+action:
+  components:
+    - hdf5_path: "/action/joint_pos/left"
+      slice: null
+      names_prefix: "left_joint"
+    - hdf5_path: "/action/joint_pos/right"
+      slice: null
+      names_prefix: "right_joint"
+    - hdf5_path: "/action/hand_joint_pos/left"
+      slice: null
+      names_prefix: "left_hand_joint"
+    - hdf5_path: "/action/hand_joint_pos/right"
+      slice: null
+      names_prefix: "right_hand_joint"
+
+# --- Extra observation features (optional) ----------------------------------
+# Any additional per-frame numeric observations beyond `observation.state`.
+# Each becomes its own feature column, e.g. `observation.xpos.left`.
+extra_observations:
+  - feature_name: "observation.xpos.left"
+    hdf5_path: "/observation/xpos/left"
+    dtype: "float32"
+  - feature_name: "observation.xpos.right"
+    hdf5_path: "/observation/xpos/right"
+    dtype: "float32"
+  - feature_name: "observation.quaternion.left"
+    hdf5_path: "/observation/quaternion/left"
+    dtype: "float32"
+  - feature_name: "observation.quaternion.right"
+    hdf5_path: "/observation/quaternion/right"
+    dtype: "float32"
+  # Currents (optional — uncomment if you want them)
+  # - feature_name: "observation.joint_cur.left"
+  #   hdf5_path: "/observation/joint_cur/left"
+  #   dtype: "float32"
+  # - feature_name: "observation.joint_cur.right"
+  #   hdf5_path: "/observation/joint_cur/right"
+  #   dtype: "float32"
+
+# --- Camera images ----------------------------------------------------------
+# Each entry produces:
+#   - An MP4 video per episode at videos/chunk-XXX/observation.images.<key>/episode_YYYYYY.mp4
+#   - A `observation.images.<key>` video feature in info.json
+images:
+  compressed: true                   # true if images are JPEG-compressed in HDF5
+  compressed_len_path: "/compressed_image_len"   # [num_cameras, num_frames] array of byte lengths
+  # If compressed=false, specify raw image dimensions:
+  # raw_height: 480
+  # raw_width: 640
+  # raw_channels: 3
+
+  cameras:
+    - key: "head"                    # becomes observation.images.head
+      hdf5_path: "/observation/images/head"
+      compressed_len_index: 0        # row index in compressed_image_len
+    - key: "left"
+      hdf5_path: "/observation/images/left"
+      compressed_len_index: 1
+    - key: "right"
+      hdf5_path: "/observation/images/right"
+      compressed_len_index: 2
+
+  # Video encoding settings (used by ffmpeg when writing MP4s)
+  video_codec: "libx264"             # libx264, libsvtav1, libx265
+  video_pix_fmt: "yuv420p"
+  video_crf: 23                      # quality (lower = better, 0 = lossless)
+
+# --- Language instructions --------------------------------------------------
+# LeRobot supports two patterns for language conditioning:
+#
+# Pattern A — task_index (standard LeRobot):
+#   Each episode maps to one or more task strings via `task_index` column.
+#   Task strings live in meta/tasks.jsonl. Good when one instruction per episode.
+#
+# Pattern B — per-frame language_instruction column (like DROID):
+#   A `language_instruction` string column in every parquet row.
+#   Good when instructions change within an episode or are frame-level.
+#
+# You can use BOTH patterns simultaneously. The converter always writes
+# task_index; set `per_frame: true` to also write a language_instruction column.
+
+language_instructions:
+  # Where to get the instruction text. Options:
+  #   "hdf5_attribute"  — read from an HDF5 attribute on a group/dataset
+  #   "hdf5_dataset"    — read from an HDF5 dataset (string array, one per frame)
+  #   "filename_regex"  — extract from the HDF5 filename
+  #   "fixed"           — same string for all frames/episodes
+  #   "external_json"   — load from a sidecar JSON file mapping episode_id → instruction
+  #   "subtask_status"  — derive from your /tasks/*/subtasks/*/status datasets
+  source: "subtask_status"
+
+  # --- Config for source: "subtask_status" ---
+  # This reads your /tasks/pick_and_place/subtasks/*/status datasets and
+  # generates per-frame instructions like "pick object" / "place object".
+  subtask_status:
+    task_group: "/tasks/pick_and_place"
+    subtask_names:                   # maps subtask HDF5 name → instruction text
+      pick: "pick up the object"
+      place: "place the object"
+      place_1: "place the object at target location"
+    default_instruction: "pick and place the object"   # fallback if status is not active
+
+  # --- Config for source: "fixed" ---
+  # fixed:
+  #   instruction: "pick and place the object"
+
+  # --- Config for source: "hdf5_dataset" ---
+  # hdf5_dataset:
+  #   path: "/language/instruction"   # string dataset of shape [num_frames]
+
+  # --- Config for source: "external_json" ---
+  # external_json:
+  #   path: "instructions.json"       # {"episode_0": "pick the red block", ...}
+
+  # Write per-frame `language_instruction` column in parquet?
+  per_frame: true
+
+  # Also populate task_index (always true, this is just for documentation)
+  use_task_index: true
+
+# --- Episode filtering (optional) ------------------------------------------
+# Skip episodes that had data collection errors
+filtering:
+  skip_on_error: true                # reads /metadata/data_collection_error
+  error_flag_path: "/metadata/data_collection_error"
+  # min_frames: 10                   # skip episodes shorter than N frames
+  # require_task_done: false         # only keep episodes where task_done=true at end

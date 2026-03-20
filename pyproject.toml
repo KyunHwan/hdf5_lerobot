@@ -1,0 +1,19 @@
+[project]
+name = "hdf5-lerobot"
+version = "0.2.0"
+description = "Convert custom HDF5 robot datasets to LeRobot v2.1 format"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "h5py>=3.16.0",
+    "huggingface_hub>=0.20.0",
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "pyyaml",
+    "Pillow",
+    "tqdm",
+]
+
+[project.scripts]
+hdf5-lerobot = "hdf5_lerobot.cli:main"
