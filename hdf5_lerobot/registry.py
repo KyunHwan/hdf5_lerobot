@@ -109,4 +109,6 @@ def _load_hooks_module(hooks_path: Path, schema_name: str) -> object:
             f"No 'Hooks' class found in {hooks_path}, using DefaultHooks"
         )
         return DefaultHooks()
+    if not issubclass(hooks_cls, DefaultHooks):
+        hooks_cls = type(hooks_cls.__name__, (hooks_cls, DefaultHooks), {})
     return hooks_cls()
